@@ -1,6 +1,6 @@
 import User from "../models/user.js";
 import jwt from "jsonwebtoken";
-import dotenv from"dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 const auth = async (req, res, next) => {
@@ -8,14 +8,14 @@ const auth = async (req, res, next) => {
         const token = req.header("Authorization");
         if(!token || !token.startsWith("Bearer ")){
             return res.status(401).json({
-                message: "No token, authorization denied",
+                message: "No token, authorization denied"
             });
         }
         
         const tokenPart = token.split(" ")[1];
         if(!tokenPart){
             return res.status(401).json({
-                message: "Token format is invalid",
+                message: "Token format is invalid"
             });
         }
 
@@ -23,7 +23,7 @@ const auth = async (req, res, next) => {
         const user = await User.findById(verified.id);
         if(!user || user.token !== tokenPart){
             return res.status(401).json({
-                message: "Invalid or expired token",
+                message: "Invalid or expired token"
             });
         }
 
@@ -33,7 +33,7 @@ const auth = async (req, res, next) => {
     } 
     catch(error){
         res.status(401).json({
-            message: "Token is invalid or expired",
+            message: "Token is invalid or expired"
         });
     }
 };
