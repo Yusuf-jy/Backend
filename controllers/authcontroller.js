@@ -58,7 +58,7 @@ export const login = async(req,res)=>{
         /* Check if user exists */
         const user = await User.findOne({email});
         if(!user){
-            res.status(404).json({
+           return res.status(404).json({
                 message: "User not found"
             });
         }
@@ -75,6 +75,7 @@ export const login = async(req,res)=>{
             process.env.JWT_SECRET,
             {expiresIn: process.env.JWT_EXPIRES_IN || '1h'}
         );
+        console.log(token)
         user.token = token;
         await user.save();
         res.status(200).json({token,user:{
@@ -110,8 +111,6 @@ export const logout = async(req, res)=>{
         });
     }
     catch(error){
-        res.status(500).json({
-            error: error.message
-        });
+       console.log(error)
+        }
     }
-};
